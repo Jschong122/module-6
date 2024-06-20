@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import { Greeting, GreetingsHoC } from "./components/Greeting";
 
 // COMPONENT FUNCTION NAME -> INITIALISE
 const App = () => {
@@ -10,7 +11,9 @@ const App = () => {
   //RETURN
   return (
     <>
-      <div className="our-first-container">test</div>
+      <GreetingsHoC name={"Jess"}>
+        <p>I want to welcome you to my website</p>
+      </GreetingsHoC>
     </>
   );
 };
