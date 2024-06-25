@@ -1,5 +1,4 @@
-export function CatsList() {
-  // collection of objects representing movies
+export function BigCats() {
   const cats = [
     { name: "Cheetah", latinName: "Acinonyx jubatus" },
     { name: "Cougar", latinName: "Puma concolor" },
@@ -10,14 +9,23 @@ export function CatsList() {
     { name: "Tiger", latinName: "Panthera tigris" },
   ];
 
+  const cardStyle = {
+    background: "white",
+    color: "black",
+    padding: "10px",
+    margin: "10px",
+  };
+
   return (
     <div className="catsList-componentBox">
-      <ul>
+      <ul style={{ listStyleType: "none" }}>
         {" "}
-        {/* iterate over each movie, print the title in a list */}
         {cats.map((cat) => (
-          <div key={Math.random()}>
+          <div style={cardStyle} key={Math.random()}>
+            <p style={{ textDecoration: "underline" }}> Latin Name</p>
             <li>{cat.latinName}</li>
+            <p style={{ textDecoration: "underline" }}> Name :</p>
+
             <li>{cat.name}</li>
           </div>
         ))}
