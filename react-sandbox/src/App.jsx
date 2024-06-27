@@ -1,54 +1,66 @@
 import { useState } from "react";
 import "./App.css";
-import { Greeting, GreetingsHoC } from "./components/Greeting";
-
-import { LabTwo } from "./containers/LabTwo";
-import { LabOne } from "./containers/LabOne";
+import { Greeting, GreetingsHoC } from "../src/components/Greeting";
+import { LabTwo } from "../src/containers/LabTwo";
+import { LabOne } from "../src/containers/LabOne";
+import { LabThree } from "../src/containers/LabThree";
 
 // COMPONENT FUNCTION NAME -> INITIALISE
 const App = () => {
+  const [contentName, setContentName] = useState("");
   // STATES & VARIABLES
-  const [contentName, setContentName] = useState(" ");
-
-  const contentDictionary = {
-    labOne: "Lab 1",
-    labTwo: "Lab 2",
-  };
-
-  //FUNCTION
+  const contentConfig = [{ lab: "Lab 1" }, { lab: "Lab 2" }, { lab: "Lab 3" }];
+  // FUNCTIONS
   const displayHandler = () => {
-    // if (contentName === "") return <p> No content here </p>;
-
-    // if (contentName === "Lab 1") return <LabOne />;
-    // if (contentName === "Lab 2") return <div> Not ready yet </div>;
-
     switch (contentName) {
-      case contentDictionary.labOne:
+      case contentConfig[0].lab:
         return <LabOne />;
-        break; //must put break when use switch. it doesn't know how to stop.
-      case contentDictionary.labTwo:
+      case contentConfig[1].lab:
         return <LabTwo />;
+      case contentConfig[2].lab:
+        return <LabThree />;
       default:
-        return <div> Click on a Lab button to see the content </div>;
+        return <div>Click on a Lab button to see the content</div>;
     }
   };
-
+  const buttonConstructor = () => {
+    const buttonElementArray = contentConfig.map((content) => {
+      return (
+        <button
+          key={content.lab}
+          onClick={() => setContentName(content.lab)}
+          style={{ margin: "5px" }}
+        >
+          {content.lab}
+        </button>
+      );
+    });
+    return buttonElementArray;
+  };
   //RETURN
   return (
     <div className="main-app-container">
-      <h1>This is the welcome page</h1>
-
-      <div style={{ display: "flex", justifyContent: " space-around" }}>
-        <button onClick={() => setContentName(contentDictionary.labOne)}>
-          Lab1
-        </button>
-        <button onClick={() => setContentName(contentDictionary.labTwo)}>
-          Lab2
-        </button>
+      <p>
+        This is the welcome page that will display the buttons for each lab{" "}
+      </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          marginBottom: "5px",
+        }}
+      >
+        {buttonConstructor()}
       </div>
-
-      <div style={{ display: "flex", width: "90vw", border: "red 1px solid" }}>
-        {/* <p> {contentName}</p> */}
+      <div
+        style={{
+          display: "flex",
+          width: "90vw",
+          height: "70vh",
+          border: "red 1px solid",
+          overflow: "scroll",
+        }}
+      >
         {displayHandler()}
       </div>
     </div>
