@@ -4,12 +4,18 @@ import { Greeting, GreetingsHoC } from "../src/components/Greeting";
 import { LabTwo } from "../src/containers/LabTwo";
 import { LabOne } from "../src/containers/LabOne";
 import { LabThree } from "../src/containers/LabThree";
+import { LabFour } from "./containers/LabFour";
 
 // COMPONENT FUNCTION NAME -> INITIALISE
 const App = () => {
   const [contentName, setContentName] = useState("");
   // STATES & VARIABLES
-  const contentConfig = [{ lab: "Lab 1" }, { lab: "Lab 2" }, { lab: "Lab 3" }];
+  const contentConfig = [
+    { lab: "Lab 1" },
+    { lab: "Lab 2" },
+    { lab: "Lab 3" },
+    { lab: "Lab 4" },
+  ];
   // FUNCTIONS
   const displayHandler = () => {
     switch (contentName) {
@@ -19,6 +25,8 @@ const App = () => {
         return <LabTwo />;
       case contentConfig[2].lab:
         return <LabThree />;
+      case contentConfig[3].lab:
+        return <LabFour />;
       default:
         return <div>Click on a Lab button to see the content</div>;
     }
