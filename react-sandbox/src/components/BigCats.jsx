@@ -1,94 +1,57 @@
 import { useState } from "react";
+import { originalCatsData } from "../assets/data/catsData";
+import { AddCatForm } from "../components/AddCatForm";
 
-export function BigCats() {
-  const originalCatsData = [
-    { name: "Cheetah", latinName: "Acinonyx jubatus" },
-    { name: "Tiger", latinName: "Panthera tigris" },
-    { name: "Leopard", latinName: "Panthera pardus" },
-    { name: "Lion", latinName: "Panthera leo" },
-    { name: "Cougar", latinName: "Puma concolor" },
-    { name: "Jaguar", latinName: "Panthera onca" },
-    { name: "Snow leopard", latinName: "Panthera uncia" },
-  ];
-
-  // FOR LAB 4-----------------------------------------------------------------------------------------------------------------
-
-  const [catsData, setCatsData] = useState(originalCatsData);
-  const [isFiltered, setIsFiltered] = useState(false);
-  //function for reverse the list
+export function BigCats({ showFormAndDelete, showResetButton }) {
+  const [catList, setCatList] = useState(originalCatsData);
 
   const reverseList = () => {
-    let reverseOrder = [...catsData].reverse();
-    console.log(" Reverse List ", reverseOrder);
-    setCatsData(reverseOrder);
-    setIsFiltered(true);
+    setCatList([...catList].reverse());
   };
 
-  //function for alphabetically sorting the list
-
-  const alphabetSorting = () => {
-    let newCats = [...catsData];
-    const alphabetCats = newCats;
-    alphabetCats.sort((a, b) => {
-      console.log(" after sorting", a, b);
-      if (a.name > b.name) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-    //ship to state
-    setCatsData(alphabetCats);
-    setIsFiltered(true);
+  const alphabeticallySortList = () => {
+    setCatList(
+      [...catList].sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      })
+    );
   };
 
-  // display only cat family - ‘Panthera’
-  const sortingFamily = () => {
-    let sortingCats = [...catsData].filter((cat) => {
-      return cat.latinName.includes("Panthera");
-    });
-    console.log(" display only Panthera ", sortingCats);
-    setCatsData(sortingCats);
-    setIsFiltered(true);
+  const showOnlyPanthera = () => {
+    setCatList(
+      originalCatsData.filter((cat) => cat.latinName.includes("Panthera"))
+    );
   };
 
-  // function for reset
-
-  const resetBtn = () => {
-    let dataForResetAll = [...originalCatsData];
-    console.log([dataForResetAll]);
-    setCatsData(dataForResetAll);
-    setIsFiltered(false);
+  const resetList = () => {
+    setCatList(originalCatsData);
   };
 
-  // FOR LAB 4 ----------------------------------------------------------------------------------------------------------------------
+  const updateCat = (newCat) => {
+    setCatList((prevCatList) => [...prevCatList, newCat]);
+  };
 
-  const cardStyle = {
-    background: "white",
-    color: "black",
-    padding: "10px",
-    margin: "10px",
+  const deleteCat = (name) => {
+    setCatList((prevCatList) => prevCatList.filter((cat) => cat.name !== name));
   };
 
   return (
-    <div className="catsList-componentBox">
-      <div>
-        <button onClick={sortingFamily}> Display only Panthera </button>
-        <button onClick={reverseList}> Reverse</button>
-        <button onClick={alphabetSorting}> Sorting </button>
-        <button onClick={resetBtn}>Reset</button>
-      </div>
-
-      <ul style={{ listStyleType: "none" }}>
-        {" "}
-        {catsData.map((cat) => (
-          <div style={cardStyle} key={Math.random()}>
-            <p style={{ textDecoration: "underline" }}> Latin Name</p>
-            <li>{cat.latinName}</li>
-            <p style={{ textDecoration: "underline" }}> Name :</p>
-
-            <li>{cat.name}</li>
-          </div>
+    <div>
+      <button onClick={reverseList}>Reverse List</button>
+      <button onClick={alphabeticallySortList}>Alphabetically Sort List</button>
+      <button onClick={showOnlyPanthera}>Show Only Panthera</button>
+      {showResetButton && <button onClick={resetList}>Reset List</button>}
+      {showFormAndDelete && <AddCatForm onFormSubmit={updateCat} />}
+      <ul>
+        {catList.map((cat) => (
+          <li key={cat.name}>
+            {cat.name} ({cat.latinName})
+            {showFormAndDelete && (
+              <button onClick={() => deleteCat(cat.name)}>Delete</button>
+            )}
+          </li>
         ))}
       </ul>
     </div>

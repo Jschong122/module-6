@@ -1,11 +1,11 @@
+import React from "react";
 import { BigCats } from "../components/BigCats";
-import { GreetingsHoC } from "../components/Greeting";
 
-export const LabTwo = () => {
+export function LabTwo() {
   return (
     <div>
-      <p> Lab 2</p>
-      <BigCats></BigCats>
+      <p>Lab 2</p>
+      <BigCats showFormAndDelete={false} showResetButton={true} />
     </div>
   );
-};
+}
